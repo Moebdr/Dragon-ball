@@ -39,7 +39,7 @@ const filteredData = dragonball?.filter((item) =>
        <main className="bg-gray-800">
       <Navbar />
       <div className="flex justify-center  bg-gray-900 p-3">
-        <input ref= {inputSearch} type="text" onChange={(e) => setSearchWord(e.target.value)} 
+        <input ref = {inputSearch} type="text" onChange={(e) => setSearchWord(e.target.value)} 
         className="outline-0 border-1 w-xs p-2 bg-gray-300" placeholder="Search for Hero"/>
       </div>
       <div className="mt-10 p-6 grid gap-4 grid-cols-1 justify-items-center xl:grid-cols-4 md:grid-cols-2 lg:grid-cols-3">
@@ -52,16 +52,16 @@ const filteredData = dragonball?.filter((item) =>
           <p>Error: {error.message}</p>
         ) : (
           // 3. Finally, show the
-          filteredData.length === 0 ? <h2 className="bg-white text-4xl">No Found</h2> :
+          filteredData.length === 0 ? <h2 className="bg-white text-4xl">Not Found</h2> :
           filteredData.map((item) => {
             return (
               <div
                 key={item.id}
-                className={`hero-box font-bold text-center  rounded-xl w-2xs bg-[image:var(--hero-bg)] bg-cover `} style ={{'--hero-bg': `url(${dragonBackground})`}} >
+                className={`hero-box font-bold text-center  rounded-xl w-2xs bg-[image:var(--hero-bg)] bg-cover flex-col justify-center`} style ={{'--hero-bg': `url(${dragonBackground})`}} >
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="  aspect-square  hero-box transition duration-300 hover:scale-120 cursor-pointer "
+                  className=" mx-auto h-[400px]  hero-box transition duration-300 hover:scale-120 cursor-pointer "
                 />
                 {item.name}
               </div>
@@ -69,6 +69,7 @@ const filteredData = dragonball?.filter((item) =>
           })
         )}
       </div>
+     
     </main>
   );
 
