@@ -1,0 +1,104 @@
+import { useState } from "react";
+function App() {
+  const [task, setTask] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  // Start with an empty array so the list is clean at the start
+  const [item, setItem] = useState([]);
+  const[editText,setEditText] = useState('');
+
+  function handleAdd(task) {
+    if (task.trim()) {
+      setItem([...item, { task: task, id: new Date() }]);
+      setTask("");
+    } else {
+      return;
+    }
+  }
+  function handleDelete(ide) {
+    const newList = item.filter((t) => t.id !== ide);
+    setItem(newList);
+  }
+  function handleEdit(id,newText) {
+    if (!newText.trim()) return;
+    const newItems = item.map(t=>{
+      if(t.id === id){
+        return { ...t, task: newText };
+      }else{
+        return t;
+      }
+    });
+    setItem(newItems);
+    setEditText("");
+    
+  }
+  return (
+    <section className="mx-auto w-lg md:w-xl lg mt-10 ">
+      <h1 className="text-center text-4xl text-bold text-shadow-pink-500 shadow shadow-pink-500-400 text-pink-700 my-5 py-2">Todo List</h1>
+      <div className="flex  justify-center items-center gap-3">
+        <AddItem task={task} setTask={setTask} />
+        <button
+          className=" bg-amber-500 text-bold py-1 px-5 cursor-pointer "
+          onClick={() => handleAdd(task)}
+          // 1. Save the 'task' string, not the 'item' array
+          // 2. Use a name that matches your .map() below (task)
+          // Optional: clears input after adding
+        >
+          Add
+        </button>
+      </div>
+      <ul className="mx-auto w-md border-1 mt-3 ">
+        {/* 3. Use todo.task because that is what you saved above */}
+        {item.map((todo, index) => (
+          <li
+            key={todo.id}
+            className="p-1 gap-2 px-4 bg-amber-300 flex justify-between items-center my-1 rounded-xs"
+          >
+            {index + 1 + " "}
+            <p className="text-bold wrap-anywhere">
+    {isEdit ? (
+      <input
+        type="text"
+        className="bg-white border-1"
+        defaultValue={todo.task} // استخدم defaultValue للبدء بنص المهمة الحالي
+        onChange={(e) => setEditText(e.target.value)}
+      />
+    ) : (
+      todo.task
+    )}
+  </p>
+<div className="flex gap-4">
+<button className="px-4 bg-blue-600 text-white transition-all duration-300 cursor-pointer hover:bg-white hover:text-blue-600"
+  onClick={() => {
+    if (isEdit) {
+      handleEdit(todo.id, editText || todo.task);
+    } else {
+      setEditText(todo.task); // نضع النص الحالي في الـ Input عند بدء التعديل
+    }
+    setIsEdit(!isEdit);
+  }}
+>
+  {isEdit ? "Save" : "Edit"}
+</button>
+<button className="px-4 bg-red-600 text-white transition-all duration-300 cursor-pointer hover:bg-white hover:text-red-600" onClick={()=>handleDelete(todo.id)}>Delete</button>
+</div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function AddItem({ task, setTask }) {
+  return (
+    <div>
+      <input
+        className="border bg-purple-200 border-1 outline-0 w-xs p-1"
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+      />
+    </div>
+  );
+}
+
+export default App;
