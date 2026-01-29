@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import dragonBackground from '../assets/Dragon.jpg'
 import getDragonball from "../Services/Api services";
+import Footer from '../components/Footer';
 import { useEffect, useState,useRef } from "react";
 
 function Home() {
@@ -17,6 +18,7 @@ function Home() {
       try {
         const DragonResponse = await getDragonball();
         setDragonBall(DragonResponse);
+        console.log(DragonResponse)
       } catch (err) {
         setError(err);
       } finally {
@@ -63,13 +65,18 @@ const filteredData = dragonball?.filter((item) =>
                   alt={item.name}
                   className=" mx-auto h-[400px]  hero-box transition duration-300 hover:scale-120 cursor-pointer "
                 />
-                {item.name}
+                {<div className="capitalize font-bold text-left p-3 bg-gray-700 text-white">
+                  name <p className="text-yellow-400">{item.name}</p> 
+                  affiliation<p className="text-yellow-400">  {item.affiliation}</p>
+                  gender <p className="text-yellow-400">  {item.gender} </p>
+                  maxKi <p className="text-yellow-400">{item.maxKi}</p>
+                </div>}
               </div>
             );
           })
         )}
       </div>
-     
+     <Footer/>
     </main>
   );
 

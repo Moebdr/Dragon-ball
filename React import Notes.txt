@@ -1,0 +1,9 @@
+- Never write to myRef.current during the "render" phase (the main body of your function). Only update or read it inside useEffect or event handlers. If you change a Ref while React is trying to draw the UI, it can lead to unpredictable bugs
+
+-Almost never. Using useEffect without a dependency array is usually a mistake in modern React
+
+-With [] (Empty): You are saying "I only care about the ref when the component first appears" (e.g., focusing an input).
+
+-With [someState]: You are saying "Update the ref or check the DOM only when this specific data changes."
+
+-With nothing: You are saying "Run this expensive logic every time anything happens," which kills performance, especially in a data-heavy app
