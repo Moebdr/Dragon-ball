@@ -37,18 +37,25 @@ function Home() {
     <main className="bg-gray-800 relative">
       <Navbar />
       <div className="flex justify-center  bg-gray-900 p-6">
+
         <input
           ref={inputSearch}
           type="text"
           onChange={(e) => setSearchWord(e.target.value)}
           className="outline-0 border-1 w-xs p-2 bg-gray-300"
           placeholder="Search for Hero"
-        />
+        />  
+
       </div>
       <div className="mt-10 p-6 grid gap-4 grid-cols-1 justify-items-center xl:grid-cols-4 md:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
           <div className="fixed z-100 top-25 flex flex-col justify-center items-center h-full w-full">
-            <div className="flex justify-center items-center loader w-20 h-20 rounded-full border-t-4 border-amber-600 animate-spin "><span className="animate-pulse text-amber-700 font-bold text-2xl">★</span></div>
+            <div className="flex justify-center items-center loader w-20 h-20 rounded-full bg-[linear-gradient(45deg,rgba(230,88,0,1)_0%,rgba(230,143,26,1)_85%,rgba(245,168,73,1)_100%,rgba(255,255,255,0)_100%)] animate-spin ">
+              <span className=" text-red-600 font-bold text-xl">
+                ★★
+              </span>
+            
+            </div>
             <h2 className="font-bold p-3">Loading...</h2>
           </div>
         ) : error ? ( // 2. Then check for Error
