@@ -7,3 +7,7 @@
 -With [someState]: You are saying "Update the ref or check the DOM only when this specific data changes."
 
 -With nothing: You are saying "Run this expensive logic every time anything happens," which kills performance, especially in a data-heavy app
+
+Wrong way: If you omit the array, React will recalculate the height of the card every time the user types a single letter in the search bar. This makes the UI feel laggy.
+
+Right way: Use an empty array [] so it only measures the card once when it's drawn on the screen.
