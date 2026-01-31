@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import About from "./sections/About";
-import Contacts from "./sections/Contacts";
+import Favorites from "./sections/Favorites";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 function App() {
@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/aboutMe" element={<About />} />
-        <Route path="/CallMe" element={<Contacts />} />
+        <Route path="/MyFavorites" element={<Favorites />} />
       </Routes>
     </>
   );
