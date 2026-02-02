@@ -57,8 +57,8 @@ function Navbar() {
         <Link to="/aboutMe" className="font-bold">
           About
         </Link>
-        <Link to="/CallMe" className="font-bold">
-          Contacts
+        <Link to="/MyFaviorates" className="font-bold">
+          Faviorates
         </Link>
       </div>
     </nav>

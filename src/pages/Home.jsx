@@ -9,6 +9,7 @@ function Home() {
   const [error, setError] = useState(null);
   const [isLoading, setIsloading] = useState(true);
   const [searchWord, setSearchWord] = useState("");
+  const [faviorate, setFaviorate] = useState([]);
   const inputSearch = useRef(null);
 
   useEffect(() => {
@@ -19,13 +20,19 @@ function Home() {
       } catch (err) {
         setError(err);
       } finally {
-        setTimeout(() => setIsloading(false), 2000);
+        setTimeout(() => setIsloading(false), 1000);
       }
     };
     fetchData();
   }, []);
+
   useEffect(() => {
     inputSearch.current.focus();
+  }, []);
+
+  useEffect(() => {
+    const savedFav = JSON.parse(localStorage.getItem("fav")) || [];
+    setFaviorate(savedFav);
   }, []);
 
   const filteredData =
@@ -33,28 +40,39 @@ function Home() {
       item.name.toLowerCase().startsWith(searchWord.toLowerCase()),
     ) || [];
 
+  function handleFavorate(id) {
+    const isAlreadyFav = faviorate.some((fav) => fav.id === id);
+    let updatedFavs;
+    if (isAlreadyFav) {
+      // Remove from favorites
+      updatedFavs = faviorate.filter((fav) => fav.id !== id)
+      setFaviorate(updatedFavs);
+    } else {
+      // Add to favorites
+      const itemToAdd = dragonball.find((item) => item.id === id);
+      updatedFavs = [...faviorate, itemToAdd];
+      setFaviorate(updatedFavs);
+    }
+    localStorage.setItem("fav", JSON.stringify(updatedFavs))
+  }
+
   return (
     <main className="bg-gray-800 relative">
       <Navbar />
       <div className="flex justify-center  bg-gray-900 p-6">
-
         <input
           ref={inputSearch}
           type="text"
           onChange={(e) => setSearchWord(e.target.value)}
           className="outline-0 border-1 w-xs p-2 bg-gray-300"
           placeholder="Search for Hero"
-        />  
-
+        />
       </div>
       <div className="mt-10 p-6 grid gap-4 grid-cols-1 justify-items-center xl:grid-cols-4 md:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
           <div className="fixed z-100 top-25 flex flex-col justify-center items-center h-full w-full">
             <div className="flex justify-center items-center loader w-20 h-20 rounded-full bg-[linear-gradient(45deg,rgba(230,88,0,1)_0%,rgba(230,143,26,1)_85%,rgba(245,168,73,1)_100%,rgba(255,255,255,0)_100%)] animate-spin ">
-              <span className=" text-red-600 font-bold text-xl">
-                ★★
-              </span>
-            
+              <span className=" text-red-600 font-bold text-xl">★★</span>
             </div>
             <h2 className="font-bold p-3">Loading...</h2>
           </div>
@@ -67,12 +85,19 @@ function Home() {
           <h2 className="bg-white text-4xl">Not Found</h2>
         ) : (
           filteredData.map((item) => {
+            const isFav = faviorate.some((fav) => fav.id === item.id);
             return (
               <div
                 key={item.id}
-                className={`hero-box font-bold mb-8 text-center  rounded-xl w-2xs bg-[image:var(--hero-bg)] bg-cover flex-col justify-center`}
+                className={`hero-box font-bold mb-8 text-right  rounded-xl w-2xs bg-[image:var(--hero-bg)] bg-cover flex-col justify-center`}
                 style={{ "--hero-bg": `url(${dragonBackground})` }}
               >
+                <button
+                  className="cursor-pointer text-2xl"
+                  onClick={() => handleFavorate(item.id)}
+                >
+                  {isFav ? "❤️" : "🤍"}
+                </button>
                 <img
                   src={item.image}
                   alt={item.name}
